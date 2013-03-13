@@ -1,0 +1,8 @@
+Django==1.5
+South==0.7.6
+dj-database-url==0.2.1
+django-app-name-translation-in-admin==0.1.0.dev
+django-smart-selects==1.0.5
+gunicorn==0.17.2
+psycopg2==2.4.6
+wsgiref==0.1.2
