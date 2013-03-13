@@ -88,12 +88,12 @@ class customerAdmin(admin.ModelAdmin):
           
     send_invite.short_description = "Send invitation"
     '''  
-    change_list_template='admin/CRM/customer/change_list.html'
-    
+    #change_list_template='admin/CRM/customer/change_list.html'
+    '''
     def changelist_view(self, request, extra_context=None):
         extra_context = extra_context or {}
         return super(customerAdmin, self).changelist_view(request,extra_context=extra_context)
-    
+    '''
     
     def show_birthday(self,obj):
         #import pdb;pdb.set_trace()
