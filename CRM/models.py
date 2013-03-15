@@ -19,7 +19,7 @@ class phone(models.Model):
     def __unicode__(self):
         return self.number
 
-    number=models.CharField(max_length=20,verbose_name=u'電話/手機號碼')
+    number=models.CharField(max_length=40,verbose_name=u'電話/手機號碼')
     phone_type=models.CharField(max_length=2,choices=PHONE_TYPE_CHOICES,verbose_name=u'種類')
     cus=models.ForeignKey('customer',verbose_name=u'顧客')
     is_for_contact=models.BooleanField(default=True,verbose_name=u'主要聯絡電話')
@@ -33,8 +33,7 @@ class email(models.Model):
         ordering=['id',]
     def __unicode__(self):
         return self.email_address
-    email_address=models.CharField(max_length=50,verbose_name=u'Email地址')
-    #cus_id=models.ForeignKey('customer',verbose_name=u'顧客')
+    email_address=models.CharField(max_length=100,verbose_name=u'Email地址')
     cus=models.ForeignKey('customer',verbose_name=u'顧客')
     is_for_contact=models.BooleanField(default=True,verbose_name=u'主要聯絡email')
     date_from=models.DateField(blank=True,null=True,verbose_name=u'有效日期')
@@ -48,7 +47,7 @@ class country(models.Model):
     
     def __unicode__(self):
         return self.name
-    id=models.IntegerField(primary_key=True,verbose_name=u'編號')
+    id=models.AutoField(primary_key=True,verbose_name=u'編號')
     name=models.CharField(max_length=20,verbose_name=u'名稱')
 
 class county(models.Model):
@@ -58,7 +57,7 @@ class county(models.Model):
         ordering=['id',]
     def __unicode__(self):
         return self.name
-    id=models.IntegerField(primary_key=True,verbose_name=u'編號')
+    id=models.AutoField(primary_key=True,verbose_name=u'編號')
     name=models.CharField(max_length=10,verbose_name=u'名稱')
 
 class district(models.Model):
@@ -69,7 +68,7 @@ class district(models.Model):
         
     def __unicode__(self):
         return self.name    
-    id=models.IntegerField(primary_key=True,verbose_name=u'編號')
+    id=models.AutoField(primary_key=True,verbose_name=u'編號')
     name=models.CharField(max_length=10,verbose_name=u'名稱')
     zip=models.CharField(max_length=5,verbose_name=u'ZIP碼')
     county=models.ForeignKey(county)
@@ -112,17 +111,18 @@ class address(models.Model):
         ordering=['id',]
     def __unicode__(self):
         return u"%s %s %s"%(self.country,self.district,self.location)
-    country=models.ForeignKey(country,verbose_name=u'國家')
-    county=models.ForeignKey(county,verbose_name=u'縣市')
+    country=models.ForeignKey(country,verbose_name=u'國家',blank=True,null=True,default=1)
+    county=models.ForeignKey(county,verbose_name=u'縣市',blank=True,null=True)
     district= ChainedForeignKey(
-       district, 
-       chained_field='county',
-       chained_model_field='county', 
-       show_all=False, 
-       auto_choose=True,
-       verbose_name=u'行政區'
+        district, 
+        chained_field='county',
+        chained_model_field='county', 
+        show_all=False, 
+        auto_choose=True,
+        verbose_name=u'行政區',
+        blank=True,null=True,
        )    
-    location=models.CharField(max_length=50,verbose_name=u'地址')
+    location=models.CharField(max_length=100,verbose_name=u'地址')
     cus=models.ForeignKey(customer,verbose_name=u'顧客')
     is_for_contact=models.BooleanField(default=True,verbose_name=u'主要聯絡地址')
     date_from=models.DateField(blank=True,null=True,verbose_name=u'有效日期')
